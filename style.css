@@ -1,12 +1,5 @@
 body {
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,0,0,0.9359944661458334) 0%, rgba(235,69,246,1) 77%);
-	color: #333;
-	font-family: 100% Sans Serif;
-	height: 100vh;
-	margin: 0;
-	padding: 0;
-	overflow-x: hidden;
+  
 }
 
 h1 {
@@ -14,6 +7,14 @@ h1 {
   color: whitesmoke;
   text-align: center;
   font-size: 50px;
+}
+
+.example {
+  background-color: #eee;
+  width: 200px;
+  height: 100px;
+  border: 1px dotted black;
+  overflow-y: scroll; /* Add the ability to scroll */
 }
 
 p {
@@ -29,7 +30,8 @@ p {
   text-align: center; 
   padding: 180px; 
   border: 4px solid gray;
-  margin: 24px;
+  border-radius: 10px;
+  margin: 22px;
   float: left;
 }
 
@@ -65,7 +67,7 @@ ul {
   overflow: hidden;
   background: red; 
   position: -webkit-sticky; /* Safari */
-  position: sticky;
+  position: fixed;
   top: 0;
 }
 
@@ -83,13 +85,36 @@ li a {
 }
 
 li a:hover {
-  border-radius: 25px;
-  background-color: magenta;
+  background: -webkit-gradient(radial, 100 75, 100, 100 75, 0, from(rgba(131, 36, 255, 0.7)), to(rgba(82, 34, 255, 0.904)));
+  border-radius: 26px;
+  
 }
 
+/*Body color animation*/
+#css-selector {
+  background: linear-gradient(251deg, #ff8dfb, #ff0c0c, #a80cff);
+  background-size: 600% 600%;
 
-/*Fade in animation. */
- 
+  -webkit-animation: AnimationName 18s ease infinite;
+  -moz-animation: AnimationName 18s ease infinite;
+  animation: AnimationName 18s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:0% 77%}
+  50%{background-position:100% 24%}
+  100%{background-position:0% 77%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:0% 77%}
+  50%{background-position:100% 24%}
+  100%{background-position:0% 77%}
+}
+@keyframes AnimationName {
+  0%{background-position:0% 77%}
+  50%{background-position:100% 24%}
+  100%{background-position:0% 77%}
+}
 
 
 /*Bubble animation*/
