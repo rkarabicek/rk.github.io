@@ -9,14 +9,6 @@ h1 {
   font-size: 50px;
 }
 
-.example {
-  background-color: #eee;
-  width: 200px;
-  height: 100px;
-  border: 1px dotted black;
-  overflow-y: scroll; /* Add the ability to scroll */
-}
-
 p {
   font-family: sans-serif;
   color: whitesmoke;
@@ -61,7 +53,7 @@ p {
 
 ul {
   list-style-type: none;
-  border-radius: 25px;
+  border-radius: 32px ;
   margin: 1;
   padding: 0;
   overflow: hidden;
