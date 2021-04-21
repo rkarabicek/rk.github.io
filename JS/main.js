@@ -6,126 +6,116 @@ function black() {
 };
 
 
-function dayToHour() {
-    let days = document.getElementById("numberDays").value;
-    document.getElementById("hours").innerHTML = days / 24;
-    console.log(days, hours);
-  };
+$(document).ready(function() {
+  var eq = "";
+  var curNumber="";
+  var result = "";
+  var entry = "";
+  var reset = false;
 
-function hourToDay() {
-    let days = document.getElementById("numberHours").value;
-    document.getElementById("days").innerHTML = days * 24;
-    console.log(days, hours);
-  };
-
-  const calculator = {
-    displayValue: '0',
-    firstOperand: null,
-    waitingForSecondOperand: false,
-    operator: null,
-  };
-  
-  function inputDigit(digit) {
-    const { displayValue, waitingForSecondOperand } = calculator;
-  
-    if (waitingForSecondOperand === true) {
-      calculator.displayValue = digit;
-      calculator.waitingForSecondOperand = false;
-    } else {
-      calculator.displayValue =
-        displayValue === '0' ? digit : displayValue + digit;
+  $("button").click(function() {    
+    entry = $(this).attr("value");   
+    
+    if (entry === "ac") {
+      entry=0;
+      eq=0;
+      result=0;
+      curNumber=0;
+      $('#result p').html(entry);
+      $('#previous p').html(eq);  
     }
-  }
-  
-  function inputDecimal(dot) {
-    if (calculator.waitingForSecondOperand === true) {
-      calculator.displayValue = '0.';
-      calculator.waitingForSecondOperand = false;
-      return;
+    
+    else if (entry === "ce") {
+      if (eq.length > 1) {
+        eq = eq.slice(0, -1);        
+        $('#previous p').html(eq);
+      }
+      else {
+        eq = 0;  
+        $('#result p').html(0);
+      }
+      
+      $('#previous p').html(eq);
+      
+      if (curNumber.length > 1) {
+        curNumber = curNumber.slice(0, -1);        
+        $('#result p').html(curNumber);  
+      }
+      else {
+        curNumber = 0;  
+        $('#result p').html(0);
+      }
+      
     }
-  
-    if (!calculator.displayValue.includes(dot)) {
-      calculator.displayValue += dot;
+    
+    else if (entry === "=") {
+      result = eval(eq);
+      $('#result p').html(result); 
+      eq += "="+result;
+      $('#previous p').html(eq);
+      eq = result;
+      entry = result;
+      curNumber = result;
+      reset = true;
     }
-  }
-  
-  function handleOperator(nextOperator) {
-    const { firstOperand, displayValue, operator } = calculator;
-    const inputValue = parseFloat(displayValue);
-  
-    if (operator && calculator.waitingForSecondOperand) {
-      calculator.operator = nextOperator;
-      return;
+    
+    else if (isNaN(entry)) {   //check if is not a number, and after that, prevents for multiple "." to enter the same number
+      if (entry !== ".") {     
+        reset = false;       
+        if (curNumber === 0 || eq === 0) { 
+          curNumber = 0;
+          eq = entry;         
+        }
+        else {
+          curNumber = "";
+          eq += entry;
+        }     
+        $('#previous p').html(eq); 
+      }
+      else if (curNumber.indexOf(".") === -1) { 
+        reset = false;
+        if (curNumber === 0 || eq === 0) { 
+          curNumber = 0.;
+          eq = 0.;           
+        }
+        else {
+          curNumber += entry;
+          eq += entry;        
+        }
+        $('#result p').html(curNumber);
+        $('#previous p').html(eq);        
+      }      
     }
-  
-    if (firstOperand == null && !isNaN(inputValue)) {
-      calculator.firstOperand = inputValue;
-    } else if (operator) {
-      const currentValue = firstOperand || 0;
-      const result = calculate(currentValue, inputValue, operator);
-  
-      calculator.displayValue = String(result);
-      calculator.firstOperand = result;
+        
+    else {  
+      if (reset) {
+        eq = entry;
+        curNumber = entry;       
+        reset = false;
+      }
+      else {
+        eq += entry; 
+        curNumber += entry;        
+        }
+       $('#previous p').html(eq); 
+       $('#result p').html(curNumber);
+      }   
+    
+    
+    if (curNumber.length > 10 || eq.length > 26) {
+      $("#result p").html("0");
+      $("#previous p").html("Too many digits");
+      curNumber ="";
+      eq="";
+      result ="";
+      reset=true;
     }
-  
-    calculator.waitingForSecondOperand = true;
-    calculator.operator = nextOperator;
-  }
-  
-  function calculate(firstOperand, secondOperand, operator) {
-    if (operator === '+') {
-      return firstOperand + secondOperand;
-    } else if (operator === '-') {
-      return firstOperand - secondOperand;
-    } else if (operator === '*') {
-      return firstOperand * secondOperand;
-    } else if (operator === '/') {
-      return firstOperand / secondOperand;
+    
+    if (result.indexOf(".") !== -1) {
+      result = result.truncate()
     }
-  
-    return secondOperand;
-  }
-  
-  function resetCalculator() {
-    calculator.displayValue = '0';
-    calculator.firstOperand = null;
-    calculator.waitingForSecondOperand = false;
-    calculator.operator = null;
-  }
-  
-  function updateDisplay() {
-    const display = document.querySelector('.calculator-screen');
-    display.value = calculator.displayValue;
-  }
-  
-  updateDisplay();
-  
-  const keys = document.querySelector('.calculator-keys');
-  keys.addEventListener('click', event => {
-    const { target } = event;
-    if (!target.matches('button')) {
-      return;
-    }
-  
-    if (target.classList.contains('operator')) {
-      handleOperator(target.value);
-      updateDisplay();
-      return;
-    }
-  
-    if (target.classList.contains('decimal')) {
-      inputDecimal(target.value);
-      updateDisplay();
-      return;
-    }
-  
-    if (target.classList.contains('all-clear')) {
-      resetCalculator();
-      updateDisplay();
-      return;
-    }
-  
-    inputDigit(target.value);
-    updateDisplay();
+    
   });
-  
+    
+
+});
