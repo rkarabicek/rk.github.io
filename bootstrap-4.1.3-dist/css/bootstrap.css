@@ -4,84 +4,62 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
- @import 'https://fonts.googleapis.com/css?family=Share+Tech+Mono';
-
-body {
-  background:antiquewhite;
+ 
+ #calculator {
+  width: 450px;
+  height: 270px;;
+  margin: 50px auto 0 auto;
+  background-color: #191970;
+  padding: 10px 10px 260px 10px;
+  border-radius: 5px;
+  border-bottom: 5px solid #42729B;
 }
 
-#header {
+.result {
+  width: 305px;
+  height: 40px;
+  float: left;
+  line-height: 40px;
+  background-color: #fff;
+  color: #000;
+  margin: 5px;
+}
+
+.result > p {
+  margin-left: 10px;
+}
+
+.clear, span {
+  height: 40px;
+  border-bottom: 3px solid grey;
+  border-radius: 10px;
   text-align: center;
-  font-family: 'Share Tech Mono', monospace;
+  line-height: 40px;
+  cursor: pointer;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  margin: 5px;
+} 
+
+.clear {
+  width: 95px;
+  float: left;
+  background-color: #c0392b;
+  color: #fff;
+    border-color: #A63125;
 }
 
-#calc {  
-  text-align: center;
-  width: 380px; 
-  display: block;
-  border-radius:8px;
-  border: 1px solid;
-  bordel-color: #abc6c2;
-  padding:8px;
-  margin-top:20px;
-  margin-left:auto;
-  margin-right:auto;
-  background: #224662;
-}
 
-#display {
-    background: #bcbcbc;
-    padding: 8px;
-    margin:16px 12px 10px 16px;
-    text-align: center;
-    font-family: 'Share Tech Mono', monospace;
-    border-radius:8px;
-}
 
-#result p{
-  font-size:1.8em;
+span {
+  float: left;
+  width: 95px;
 }
-
-#result,
-#previous {
-  text-align: right;
-  
+span:hover{
+    
+	background-color:#00BFFF;
 }
-
-#keyboard {
-  display: inline-block;  
-  text-align: center;
-  margin-bottom:8px;
-}
-
-.row {
-  margin-top: 4px;
-}
-
-.last-row {
-  float:left;
-  margin-top: 1.5%;
-}
-
-button {
-  width: 62px;
-  margin: 2px;
-}
-
-.invisible {
-  width:0;
-}
-
-.btn-zero {
-  width: 134px;
-}
-
-.btn-result {  
-  float:right;
-  margin-left:4px;  
-  height: 74px;
-}
-
+ 
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
