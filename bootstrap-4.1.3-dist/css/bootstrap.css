@@ -185,19 +185,6 @@ body {
   transform: translateX(-4px);
 }
 
-
-.dark-mode {
-  background-color: black;
-  color: white;
-}
-
-.light-mode {
-  background-color: white;
-  color: black;
-};
-
-
-
 [tabindex="-1"]:focus {
   outline: 0 !important;
 }
