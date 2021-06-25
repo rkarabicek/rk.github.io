@@ -1,5 +1,5 @@
 // Theme switcher
-isWhite = true;
+let isWhite = true;
 
 function black() {
   const bodyTheme = document.body;
