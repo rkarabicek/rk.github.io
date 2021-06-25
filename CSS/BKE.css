@@ -1,0 +1,108 @@
+body {
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .add-player-button {
+    background-color:  aqua;
+    border-radius: 15px;
+    border: 2px solid blue;
+    display: inline-block;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 18px;
+    position: relative;
+    justify-content: space-around;
+    padding: 12px 16px;
+    border: none;
+    outline: none; 
+  }
+
+  .button {
+    margin:20px;
+  }
+    
+  p {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .reset-game-button {
+    background-color:#EC3576;
+    border-radius:15px;
+    border:2px solid #ffffff;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff ;
+    font-family:Arial;
+    font-size:18px;
+    padding:12px 16px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ffffff;
+    border: none;
+    outline:none; 
+  }
+    
+  .reset-game-button:active {
+    position:relative;
+    top:1px;
+  }
+    
+  /* Game Board */
+    .tic-tac-toe-board {
+      display: flex ;
+      width: 400px;
+      height: 400px;
+      margin: 400 auto;
+      position: relative;
+    background-color: rgb(255, 36, 72);
+    color: #fff;
+    border: 6px solid pink;
+    border-radius: 10px;
+      display: grid;
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  }
+
+  .BoardPlacement {
+    display: flex;  
+  }
+
+  .box {
+    border: 6px solid rgb(255, 111, 135);
+    border-radius: 2px;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .btn {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 36px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica;
+    font-weight: bold;
+    color: #fff;
+  
+  }
+  
+  /* On mouse-over */
+  .btn:hover {background: #eee;}
+
+  .p1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .p2 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
