@@ -49,67 +49,72 @@
       </ul>
     </div>
   </nav>
+<body>
+ <div>
+    <h1 class="header">Tic Tac Toe</h1>
+  </div>
+  <div class="enter-players">
 
-  <body>
-    <h1 class="text-center size text-dark">Tic-Tac-Toe</h1>
-    <main>
-        <input name="player-name" type="text" class="input-field input-field-player-name" placeholder="name">
-        <button type="button" class="button add-player-button">Add player</button>
-      <div>
-        <div>
-            <p class="p1">Player 1</p>
-            <p class="p1">Points: </p>
-            <p class="p1">Level: </p>
-            <p class="p1">Symbol: X</p>
-        </div>
-        <div>
-        <p class="p2">Player 2</p>
-        <p class="p2">Points: </p>
-        <p class="p2">Level: </p>
-        <p class="p2">Symbol: O</p>
-        </div>
+    <form id="player-form">
+      <div class="player-container">
+        <label for="player1">Player 1</label>
+        <input type="text" placeholder="enter name" name="player1" id="player1" class="input-field" />
+      </div>
+      <div class="player-container">
+        <label for="player2">Player 2</label>
+        <input type="text" placeholder="enter name" name="player2" id="player2" class="input-field" />
       </div>
 
-        <row> 
-          <div class="tic-tac-toe-board">
-              <div class="box">
-                <button class="btn on board btnL1">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnM1">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnR1">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnL2">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnM2">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnR2">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnL3">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnM3">-</button>
-              </div>
-              <div class="box">
-                <button class="btn on board btnR3">-</button>
-              </div>
-            </div>
-    </main>
-    <div></div>
-    <button class="reset-game-button">reset</button>
-    <script type="module" src="JS/BKE.js"></script>
-    <div>
-        <button class="reset-game-button">reset</button>
-    </div>
+      <input type="submit" class="submit-btn" value="Start Game" />
+    </form>
+  </div>
 
-  
-  </body>
+  <div class="board__main hide-container">
+    <div class="board___player-turn"></div>
+
+    <div class="board__container">
+      <div class="board__cell">
+        <div class="letter" data-id="0"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="1"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="2"></div>
+      </div>
+
+      <div class="board__cell">
+        <div class="letter" data-id="3"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="4"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="5"></div>
+      </div>
+
+      <div class="board__cell">
+        <div class="letter" data-id="6"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="7"></div>
+      </div>
+      <div class="board__cell">
+        <div class="letter" data-id="8"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reset reset--hidden">
+    <div class="reset__text">
+    </div>
+    <button class="replay-btn" value="replay">
+      <span class="clear-board">Clear Board</span>
+    </button>
+    <br>
+
+</body>
+
   <footer>
     <div class="grid-container">
         <div id="item5">Made by: Riza Karabicek</div>

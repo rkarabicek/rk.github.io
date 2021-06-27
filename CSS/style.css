@@ -9,7 +9,8 @@
 }
 
 .item5 { 
-    grid-area: footer; 
+    grid-area: footer;
+    position: fixed;
 }
   
 .grid-container {

@@ -1,171 +1,227 @@
-import Player from "./Player.js";
+"use strict";
 
-// variabelen
-const playerNameInputField = document.querySelector('.input-field-player-name');
-const addPlayerButton = document.querySelector('.add-player-button');
-const playerOneLabel = document.querySelector('.p1');
-const playerTwoLabel = document.querySelector('.p2');
-const players = [ ];
-const currentPlayer = 0;
+window.addEventListener('load', app);
 
-// Hier zijn alle buttons
-const fields = document.querySelectorAll('.board > .fields');
-const resetButton = document.querySelector(".reset-game-button");
-const btn1 = document.querySelector('.btnL1')
-const btn2 = document.querySelector('.btnM1')
-const btn3 = document.querySelector('.btnR1')
-const btn4 = document.querySelector('.btnL2')
-const btn5 = document.querySelector('.btnM2')
-const btn6 = document.querySelector('.btnR2')
-const btn7 = document.querySelector('.btnL3')
-const btn8 = document.querySelector('.btnM3')
-const btn9 = document.querySelector('.btnR3')
-const buttons = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9]
+let gameBoard = ['', '', '', '', '', '', '', '', '']; 
+let turn = 0; // Keeps track if X or O player's turn
+let winner = false;
 
-function addPlayer() {
-    if (players.length >= 2) {
-        alert("There are 2 players (or more) already. Press Reset button to start a new game.");       
-        return;
-    }
+// CREATE PLAYER
+const player = (name) => {
+  name = name;
+  return {name};
+ };
 
-    const playerName = playerNameInputField.value;
-    
-    const newPlayer = new Player(playerName, symbol);
-    
-    players.push(newPlayer); 
+ let playerX = player("");
+ let playerY = player("");
 
-    
-    printPlayers();
+ // INITIALIZE APP
+function app() {
+  let inputField = document.querySelector('.input-field').focus();
+
+  const addPlayerForm = document.getElementById('player-form');
+  addPlayerForm.addEventListener('submit', addPlayers);
+
+  let replayButton = document.querySelector('.replay-btn');
+  replayButton.addEventListener('click', resetBoard);
 }
 
-function printPlayers() {
-    playerNameInputField.value = ("");
+// Add PLAYERS
+function addPlayers(event) {
+  event.preventDefault();
 
-    console.log(players);
+  if (this.player1.value === '' || this.player2.value === '') {
+    alert('You Must Enter a Name for Each Field');
+    return;
+  }
 
-    let playersText = "";
+  const playerFormContainer = document.querySelector('.enter-players');
+  const boardMain = document.querySelector('.board__main');
+  playerFormContainer.classList.add('hide-container');
+  boardMain.classList.remove('hide-container');
 
-    for(let i = 0; i < players.length; i++) {
-        let player = players[i];
-        let playersText = "Name: " + player.getName();
-        let p = document.createElement("p");
-        if (i == 0) { // Player One
-            //Set text of player One label
-            playerOneLabel.innerHTML = "";
-            playerOneLabel.append (p) ;
-            playerOneLabel = currentPlayer[0]
-            p.textContent = `${playersText}` ;
-            playerOneLabel.classList.add("p1");
-        } else if (i == 1) {            
-            //Set text of player One label
-            playerTwoLabel.innerHTML = "";
-            playerTwoLabel.append (p) ;
-            playerTwoLabel = currentPlayer[1];
-            p.textContent = `${playersText}` ;
-            playerTwoLabel.classList.add("p2");
-        } else {
-            return; 
+  playerX.name = this.player1.value;
+  playerY.name = this.player2.value;
+  buildBoard();
+}
+
+// RETURN CURRENT PLAYER
+function currentPlayer() {
+  return turn % 2 === 0 ? 'X' : 'O';
+}
+
+// Resize squares in event browser is resized
+window.addEventListener("resize", onResize);
+function onResize() {
+  let allCells = document.querySelectorAll('.board__cell');
+  let cellHeight = allCells[0].offsetWidth;
+  
+  allCells.forEach( cell => {
+    cell.style.height = `${cellHeight}px`;
+  });
+}
+
+// Build Board
+function buildBoard() {
+  let resetContainer = document.querySelector('.reset');
+  resetContainer.classList.remove('reset--hidden');
+
+  onResize();
+  addCellClickListener();
+  changeBoardHeaderNames();
+}
+
+// CELL CLICK EVENT FOR PLAYER TO ATTEMPT TO MAKE MOVE
+function makeMove(event) {
+  console.log(turn);
+  
+  let currentCell = parseInt(event.currentTarget.firstElementChild.dataset.id);
+  let cellToAddToken = document.querySelector(`[data-id='${currentCell}']`);
+  
+  if (cellToAddToken.innerHTML !== '') {
+    console.log('This cell is already taken.');
+    return;
+  } else {
+    if (currentPlayer() === 'X') {
+      cellToAddToken.textContent = currentPlayer();
+      gameBoard[currentCell] = 'X';
+    } else {
+      cellToAddToken.textContent = currentPlayer();
+      gameBoard[currentCell] = 'O';
+    }
+  }
+    
+  // CHECK IF WE HAVE A WINNER
+  isWinner();
+    
+  // Update turn count so next player can choose
+  turn ++;
+
+  // CHANGE BOARD HEADER INFO
+  changeBoardHeaderNames();
+}
+
+function checkIfTie() {
+  if (turn > 7) {
+    alert('game over a tie')
+  }
+}
+
+function isWinner() {
+  const winningSequences = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  winningSequences.forEach( winningCombos => {
+    let cell1 = winningCombos[0];
+    let cell2 = winningCombos[1];
+    let cell3 = winningCombos[2];
+    if (
+      gameBoard[cell1] === currentPlayer() &&
+      gameBoard[cell2] === currentPlayer() &&
+      gameBoard[cell3] === currentPlayer()
+    ) {
+
+      
+      const cells = document.querySelectorAll('.board__cell');
+      let letterId1 = document.querySelector(`[data-id='${cell1}']`);
+      let letterId2 = document.querySelector(`[data-id='${cell2}']`);
+      let letterId3 = document.querySelector(`[data-id='${cell3}']`);
+      
+      cells.forEach( cell => {
+        let cellId = cell.firstElementChild.dataset.id;	
+
+        if (cellId == cell1 || cellId == cell2 || cellId == cell3 ) {
+          cell.classList.add('board__cell--winner');
         }
+      });
+
+      let currentPlayerText = document.querySelector('.board___player-turn');
+      if (currentPlayer() === 'X') {
+        currentPlayerText.innerHTML = `
+          <div class="congratulations">Congratulations ${playerX.name}</div>
+          <div class="u-r-winner">You are our winner!</div>
+        `;
+        winner = true;
+        removeCellClickListener();
+        return true;
+      } else {
+        currentPlayerText.innerHTML = `
+          <div class="congratulations">Congratulations ${playerY.name}</div>
+          <div class="u-r-winner">You are our winner!</div>
+        `;
+        winner = true;
+        removeCellClickListener();
+        return true;
+      }
     }
+  });
+
+  if (!winner) {
+    checkIfTie();
+  }
+  
+  return false;
 }
 
-addPlayerButton.addEventListener("click", addPlayer);    
-
-
-
-// Hier wordt een event listen toegevoegd aan de buttons
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function(){
-
-        if (currentPlayer == 0){
-            buttons[i].innerHTML = "X"
-            currentPlayer = 1;
-
-        } else if (currentPlayer == 1){
-            buttons[i].innerHTML = "O"
-            currentPlayer = 0;
-
-        }
-        checkWinner();
-})
+function changeBoardHeaderNames() {
+  if (!winner) {
+    let currentPlayerText = document.querySelector('.board___player-turn');
+    if (currentPlayer() === 'X') {
+      currentPlayerText.innerHTML = `
+        <span class="name--style">${playerX.name}</span>, you are up!
+        <div class="u-r-winner"></div>
+      `
+    }  else {
+      currentPlayerText.innerHTML = `
+        <span class="name--style">${playerY.name}</span>, you are up.
+        <div class="u-r-winner"></div>
+      `
+    }
+  }
 }
 
+function resetBoard() {
+  console.log('resetting');
+  
+  gameBoard = ['', '', '', '', '', '', '', '', '']; 
+  
+  let cellToAddToken = document.querySelectorAll('.letter');
+  cellToAddToken.forEach( square => {
+    square.textContent = '';
+    square.parentElement.classList.remove('board__cell--winner');
+  });
 
-function addSymbolToField(field) {
-    const fieldContent = field.textContent;
-    if (fieldContent === 'X' || fieldContent === 'O') {
-        alert('This field can not be used');
-    }
+  turn = 0;
+  winner = false;
 
+  let currentPlayerText = document.querySelector('.board___player-turn');
+  currentPlayerText.innerHTML = `
+    <span class="name--style">${playerX.name}</span>, you are up!
+    <div class="u-r-winner"></div>
+  `
+
+  addCellClickListener();
 }
 
-function checkWinner() {
-
-    if (btn1.innerHTML == "X" && btn5.innerHTML == "X" && btn9.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn1.innerHTML == "X" && btn2.innerHTML == "X" && btn3.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn4.innerHTML == "X" && btn5.innerHTML == "X" && btn6.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn7.innerHTML == "X" && btn8.innerHTML == "X" && btn9.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn1.innerHTML == "X" && btn4.innerHTML == "X" && btn7.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn2.innerHTML == "X" && btn5.innerHTML == "X" && btn8.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn3.innerHTML == "X" && btn6.innerHTML == "X" && btn9.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }else if(btn3.innerHTML == "X" && btn5.innerHTML == "X" && btn7.innerHTML == "X"){
-        alert("X Wins, reset the game")
-        counter = 0;
-    }
-    
-    if (btn1.innerHTML == "O" && btn5.innerHTML == "O" && btn9.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn1.innerHTML == "O" && btn2.innerHTML == "O" && btn3.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn4.innerHTML == "O" && btn5.innerHTML == "O" && btn6.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn7.innerHTML == "O" && btn8.innerHTML == "O" && btn9.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn1.innerHTML == "O" && btn4.innerHTML == "O" && btn7.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn2.innerHTML == "O" && btn5.innerHTML == "O" && btn8.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn3.innerHTML == "O" && btn6.innerHTML == "O" && btn9.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }else if(btn3.innerHTML == "O" && btn5.innerHTML == "O" && btn7.innerHTML == "O"){
-        alert("O Wins, reset the game")
-        counter = 0;
-    }
+function addCellClickListener() {
+  const cells = document.querySelectorAll('.board__cell');
+  cells.forEach( cell => {
+    cell.addEventListener('click', makeMove);
+  });
 }
 
-function resetGame() {
-    for (let i = 0; i < 9; i++) {
-    
-        buttons[i].innerHTML = "-"
-        currentPlayer = 0;
-
-    }
-    console.log("Resetting the game");
-    players.splice(0, 2);
-    console.log(players);
-    playerOneLabel.innerHTML = "Player 1"; 
-    playerTwoLabel.innerHTML = "Player 2"; 
+function removeCellClickListener() {
+  let allCells = document.querySelectorAll('.board__cell');
+  allCells.forEach( cell => {
+    cell.removeEventListener('click', makeMove);
+  });
 }
 
-resetButton.addEventListener("click", resetGame);
