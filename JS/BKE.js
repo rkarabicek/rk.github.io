@@ -6,7 +6,7 @@ let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let turn = 0; // Keeps track if X or O player's turn
 let winner = false;
 
-// CREATE PLAYER
+//create player
 const player = (name) => {
   name = name;
   return {name};
@@ -15,7 +15,7 @@ const player = (name) => {
  let playerX = player("");
  let playerY = player("");
 
- // INITIALIZE APP
+//intialize app
 function app() {
   let inputField = document.querySelector('.input-field').focus();
 
@@ -26,7 +26,7 @@ function app() {
   replayButton.addEventListener('click', resetBoard);
 }
 
-// Add PLAYERS
+//add players
 function addPlayers(event) {
   event.preventDefault();
 
@@ -45,12 +45,11 @@ function addPlayers(event) {
   buildBoard();
 }
 
-// RETURN CURRENT PLAYER
+//return huidige speler
 function currentPlayer() {
   return turn % 2 === 0 ? 'X' : 'O';
 }
 
-// Resize squares in event browser is resized
 window.addEventListener("resize", onResize);
 function onResize() {
   let allCells = document.querySelectorAll('.board__cell');
@@ -61,7 +60,7 @@ function onResize() {
   });
 }
 
-// Build Board
+//het boord te bouwen
 function buildBoard() {
   let resetContainer = document.querySelector('.reset');
   resetContainer.classList.remove('reset--hidden');
@@ -71,7 +70,7 @@ function buildBoard() {
   changeBoardHeaderNames();
 }
 
-// CELL CLICK EVENT FOR PLAYER TO ATTEMPT TO MAKE MOVE
+//cell click event om spelers een beurt te geven.
 function makeMove(event) {
   console.log(turn);
   
@@ -91,13 +90,13 @@ function makeMove(event) {
     }
   }
     
-  // CHECK IF WE HAVE A WINNER
+  //checkt voor de winnaar
   isWinner();
     
-  // Update turn count so next player can choose
+  //dit is om de beurten te verdelen.
   turn ++;
 
-  // CHANGE BOARD HEADER INFO
+  //om de header te veranderen naar de speler's naam
   changeBoardHeaderNames();
 }
 
