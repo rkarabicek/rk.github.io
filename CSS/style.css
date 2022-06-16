@@ -8,6 +8,48 @@
   margin: 10%;
 }
 
+.img {
+  width: 50%;
+  height: 50%;
+}
+
+.img:hover {
+  transform: scale(1.5);
+}
+
+.gif:hover {
+  transform: scale(1.5);
+}
+
+.div {
+  padding: 5%;
+  text-align: center;
+}
+
+.logo {
+  width: 3.6%;
+  height: 3.6%;
+  border-radius: 10%;
+}
+
+.logoContact {
+  width: 10%; 
+  height:20%;
+}
+
+.pinkBorder {
+  border-radius: 10%;
+  border-color: black;
+  background-color: pink;
+  color: black;
+  padding: 1%;
+  border: #000;
+}
+
+.pinkBorder:hover {
+  background-color: plum;
+}
+
 .item5 { 
     grid-area: footer;
     position: fixed;
